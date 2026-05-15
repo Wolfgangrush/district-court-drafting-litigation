@@ -37,7 +37,7 @@ If you have never used a Claude plugin before, read this section. If you are alr
 
 **Claude** is an AI assistant made by Anthropic. It can read text, write text, look at PDF files, and answer your questions. You can chat with Claude in a browser, in a desktop application, or in a terminal.
 
-A **plugin** is a folder of instruction files that you place on your computer, which tells Claude how to do one specific job very well. Without a plugin, Claude is a general-purpose assistant. With a plugin, Claude becomes a specialist for the job that plugin describes.
+A **plugin** is a folder of instruction files that you place inside the Claude Desktop application's plugins folder on your computer. The plugin tells Claude how to do one specific job very well. Without a plugin, Claude is a general-purpose assistant. With a plugin installed, Claude becomes a specialist for the job that plugin describes.
 
 This plugin — **district-court-drafting** — tells Claude how to draft a District-court pleading the way an Indian District-court advocate would draft it. The plugin contains:
 
@@ -207,35 +207,17 @@ This section assumes **no prior technical background**. If you have used a plugi
 ### Step 0 — what you need
 
 - A computer running macOS, Windows, or Linux.
-- Either:
-  - **Claude Code** — Anthropic's terminal CLI, install from <https://claude.com/claude-code> · OR
-  - **Claude Desktop** — Anthropic's GUI application, download from <https://claude.ai/download>
+- **Claude Desktop application** — Anthropic's GUI application, download from <https://claude.ai/download>
 - A working internet connection (one-time, for cloning the plugin)
 - Either Microsoft Word or LibreOffice on your computer to open the `.docx` output
 
-### Step 1 — install Claude
+### Step 1 — install Claude Desktop
 
-If you have not already installed Claude Code or Claude Desktop, do that first (links above). The installer walks you through Anthropic account login, plan selection, and basic setup. Once Claude is installed and you can chat with it, return here.
+If you have not already installed the Claude Desktop application, download it from <https://claude.ai/download>. The installer walks you through Anthropic account login, plan selection, and basic setup. Once Claude is installed and you can chat with it, return here.
 
 ### Step 2 — find your plugins folder
 
-The plugin needs to sit in a specific folder on your computer that Claude looks at on startup. The folder depends on your setup:
-
-#### If you are using Claude Code (terminal CLI)
-
-The plugin folder is `~/.claude/plugins` on macOS and Linux, or `%USERPROFILE%\.claude\plugins` on Windows. You may need to create it the first time:
-
-```bash
-# macOS / Linux
-mkdir -p ~/.claude/plugins
-
-# Windows (PowerShell)
-mkdir -Force $env:USERPROFILE\.claude\plugins
-```
-
-#### If you are using Claude Desktop application
-
-The plugin folder depends on your OS:
+The plugin needs to sit in a specific folder on your computer that Claude looks at on startup. The folder depends on your OS:
 
 | OS | Path |
 |---|---|
@@ -261,28 +243,24 @@ mkdir -Force $env:APPDATA\Claude\plugins
 Open Terminal (macOS / Linux) or PowerShell (Windows). Navigate to the plugin folder, then clone:
 
 ```bash
-# Claude Code (all OSes)
-cd ~/.claude/plugins
-git clone https://github.com/Wolfgangrush/district-court-drafting-litigation.git district-court-drafting
-
-# Claude Desktop macOS
+# macOS
 cd ~/Library/Application\ Support/Claude/plugins
 git clone https://github.com/Wolfgangrush/district-court-drafting-litigation.git district-court-drafting
 
-# Claude Desktop Linux
+# Linux
 cd ~/.config/Claude/plugins
 git clone https://github.com/Wolfgangrush/district-court-drafting-litigation.git district-court-drafting
 
-# Claude Desktop Windows (PowerShell)
+# Windows (PowerShell)
 cd $env:APPDATA\Claude\plugins
 git clone https://github.com/Wolfgangrush/district-court-drafting-litigation.git district-court-drafting
 ```
 
 If the `git clone` command fails because you don't have Git installed, install Git from <https://git-scm.com/downloads> and try again.
 
-### Step 4 — restart Claude
+### Step 4 — restart Claude Desktop
 
-Quit and reopen Claude Desktop (or `exit` and re-run `claude` if you are on Claude Code). The plugin will be auto-discovered.
+Quit and reopen the Claude Desktop application. The plugin will be auto-discovered on the next session start.
 
 ### Verifying the install
 
@@ -293,7 +271,7 @@ In a Claude session, type any of the following:
 - *"draft bail"* — should trigger `bail-draft`
 - `/specific-relief-suit-draft` — explicit slash-invocation
 
-Claude should respond by reading the skill and asking you for the case folder path or the case-specific facts. If Claude does not recognise the trigger phrase, run `claude plugin list` in CLI to confirm the plugin is registered, or restart the Desktop app.
+Claude should respond by reading the skill and asking you for the case folder path or the case-specific facts. If Claude does not recognise the trigger phrase, restart the Desktop application and confirm the plugin folder is at the correct path.
 
 ---
 
@@ -333,14 +311,9 @@ cp ~/.claude/plugins/district-court-drafting/state-config/exemplars/maharashtra.
 
 Open `state-config.md` in any text editor and verify the values. Pecuniary jurisdiction limits and Court-Fees Schedule entries change when the State amends them; confirm against your bar's latest notification before relying on the values.
 
-### Step 3 — launch Claude from inside the case folder
+### Step 3 — open the case folder in Claude
 
-```bash
-cd ~/Desktop/cases/spec-perf-plot-DDMMYYYY/
-claude
-```
-
-(If you are using Claude Desktop, open Claude and use the file-browser feature in the application to point Claude at the case folder.)
+In the Claude Desktop application, point Claude at the case folder using the application's file-browser feature.
 
 ### Step 4 — invoke the skill
 
@@ -479,13 +452,12 @@ The author's primary practice is at the Bombay High Court (Nagpur Bench); the de
 
 ## Roadmap
 
-- [x] **v0.1.0-alpha (scaffold)** — `_drafting_common` + `_district_pleading_base` + 5 civil-side skill skeletons + 5 criminal-side skill skeletons + 6-agent pipeline + 16 State exemplars
-- [ ] **v0.1.0** — full civil-side coverage: complete `plaint-ws-draft`, `application-draft`, `petition-draft`, `pleadings-draft`, `specific-relief-suit-draft` to chamber-grade
-- [ ] **v0.2.0** — full criminal-side coverage under BNSS: complete `criminal-complaint-draft`, `bail-draft`, `anticipatory-bail-draft`, `criminal-revision-draft`, `bnss-313-statement-draft` to chamber-grade
-- [ ] **v0.3.0** — Civil Pleadings expansion (CPC Order VI / VII / VIII expansive coverage) + Family-Court companion skill-pack reference
-- [ ] **v0.4.0** — Specific-Relief Act expansive coverage (Sections 11, 15, 19, 21 — sub-cases)
-- [ ] **v0.5.0** — Commercial-Court extension (Commercial Courts Act 2015 + Commercial Courts (Amendment) Act 2018)
+- [x] **v0.1.0-alpha (current)** — `_drafting_common` + `_district_pleading_base` + civil-side and criminal-side skill scaffolds + 6-agent pipeline + 16 State exemplars
+- [ ] **v0.1.x** — bug fixes, language-register polish, State-config refinements driven by user feedback
+- [ ] **v0.x onward** — civil-side and criminal-side case-type coverage deepening, State-specific Court-Fees Schedule + Civil Manual + Vakalatnama-format refinements, Commercial-Court extension (Commercial Courts Act 2015), and additional case-type skills as the community contributes
 - [ ] **v1.0.0** — Stable release after community-validated use across multiple States
+
+Per-State deep validation will arrive in the order advocates contribute. The plugin's State-config architecture means any advocate with regular District-court practice in a given State can deepen the calibration for that State by opening an issue or pull request with their State's idiom — no central roadmap is needed to enable that.
 
 ---
 
