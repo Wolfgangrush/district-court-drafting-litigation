@@ -1,0 +1,132 @@
+---
+name: _drafting_common
+description: Shared reference for all District Court drafting skills in this plugin. Holds the enforcement rules, architecture constraints, District Court AI-use risk context, and standard District Court formatting conventions. NOT invoked directly — referenced from every drafting skill via ${CLAUDE_PLUGIN_ROOT}/skills/_drafting_common/SKILL.md.
+allowed-tools: []
+---
+
+# Shared Drafting Common — Rules & Constraints (District Courts of India)
+
+This file is referenced from every drafting skill in the `district-court-drafting` plugin. It is NOT invoked on its own.
+
+## THE ENFORCEMENT RULES (non-negotiable)
+
+1. **No external-memory MCP tools in drafting skills.** Drafting skill `allowed-tools:` lists MUST exclude any external-memory, vault, or cloud-sync MCP tool. A drafting skill operates strictly on the case folder.
+
+2. **Case-folder scoping.** Every drafting skill auto-fires only when the user is working inside a case folder. No hardcoded case path in the plugin.
+
+3. **Per-case CLAUDE.md is OPT-IN, self-contained.** Case context only — parties, court (the specific District Judge / Civil Judge Senior Division / Junior Division / Additional District Judge / Civil Court of Small Causes / etc.), key dates, advocate name and Bar Council enrolment number, court-fee paid status.
+
+4. **Drafting skills do not interact with any general note-taking / archive skill.** Out of scope; hygiene recommendation only.
+
+5. **External diary / project tracker** should reference cases by code or pattern only — never by quoting draft text or party names verbatim.
+
+6. **🔴 LAYER 2 IS APPEND-ONLY FROM SKILL/AGENT SIDE.**
+   - Skills/agents may: READ existing files in case folder, WRITE new draft files, EDIT files they themselves created in this session
+   - Skills/agents may NOT: rm, mv, rmdir, trash, rename, delete, overwrite-without-versioning
+   - Enforcement recommendations: `allowed-tools:` whitelist excludes destructive Bash patterns; user-side hooks block destructive operations on case-folder paths
+
+6.1. **🔴 WORKING-COPY RULE — never operate on originals.**
+   Conversion / extraction / transformation of any existing case file is performed only on a copy under `~/.claude/working-copies/<case-name>/`. The original file is never opened-for-write.
+
+## LOCKED CONSTRAINTS (District Court AI-use risk)
+
+> Indian Courts have publicly cautioned advocates against AI-generated content with fabricated citations or unverified facts. District-Court matters are the highest-volume practice surface; a single fabricated FIR number, fabricated property survey number, fabricated date, or fabricated citation can be disastrous for the underlying matter.
+
+These rules apply to every drafting agent:
+
+- **NO internet for facts.** No WebSearch, no WebFetch for case content or for citations.
+- **Statutes available from training data:** Constitution of India, Code of Civil Procedure 1908, Specific Relief Act 1963, Indian Contract Act 1872, Transfer of Property Act 1882, Indian Succession Act 1925, Indian Penal Code 1860 / Bharatiya Nyaya Sanhita 2023, Code of Criminal Procedure 1973 / Bharatiya Nagarik Suraksha Sanhita 2023, Indian Evidence Act 1872 / Bharatiya Sakshya Adhiniyam 2023, Limitation Act 1963, Court-Fees Act 1870, Suits Valuation Act 1887. **All other statutes** (e.g., Hindu Marriage Act, Hindu Succession Act, Muslim Personal Law, Christian Marriage Act, Special Marriage Act, Family Courts Act, POCSO, NDPS, IT Act, Arbitration and Conciliation Act, Negotiable Instruments Act for Section 138 specifically, Consumer Protection Act, MV Act, GST Acts, Income Tax Act, RERA, IBC, and so on) must be supplied by the user as PDF before they can be cited. The Reader agent halts the pipeline if any required statute is missing.
+
+- **State-specific instruments are user-supplied.** Each State has its own Court-Fees Schedule (often amended), its own Civil Manual, its own Criminal Manual, its own Vakalatnama format, and its own Court Rules made under Section 122 / Section 482 of the relevant Code. These are NOT in training data; the user supplies the State-specific PDFs.
+
+- **Case citations — strict.** Every case citation in the output must trace to a citation supplied in the user's case folder (`citations.md`). The Drafter never generates a case name + citation pair from memory. Where a ground requires support and no user-supplied citation matches, the Drafter writes a `[CITATION NEEDED: <legal proposition>]` placeholder and the Verifier flags it.
+
+- **File-based pipeline.** Each agent writes its output to a file → next agent reads. Auditable chain of custody.
+
+- **Triple-verify.** Verifier + Refiner + Overseer = 3 independent passes before the draft is shown to the user.
+
+- **Final draft must be indistinguishable from an advocate-authored pleading.** No AI-style markers, no bullet-list dumps where prose is expected, no markdown formatting in the .docx body, no first-person AI framing.
+
+- **The user remains the responsible advocate.** The plugin is a drafting aid; every draft must be reviewed before filing. The advocate's signature on the pleading is the advocate's responsibility.
+
+## DISTRICT COURT FORMATTING CONVENTIONS
+
+These conventions reflect the standard practice of District Courts across India as governed by the CPC (civil) and BNSS (criminal), supplemented by State-specific Civil Manuals and Criminal Manuals. No template in this plugin reflects any specific client matter; all conventions are public procedural knowledge.
+
+### Civil-side conventions (CPC-governed)
+
+- **Court header:** `IN THE COURT OF [JUDICIAL OFFICER DESIGNATION per state-config.md Section 2] AT [PLACE], DISTRICT [DISTRICT NAME]` — the JUDICIAL OFFICER DESIGNATION value varies by State and is sourced from the user's `<case-folder>/state-config.md`. Examples by State: `THE CIVIL JUDGE, SENIOR DIVISION` (Maharashtra/Karnataka/UP/Bengal-style); `THE SUBORDINATE JUDGE` (Tamil Nadu); `THE SUB COURT` (Kerala); `THE SENIOR CIVIL JUDGE` (AP/TG/Rajasthan/Delhi); `THE SUB JUDGE` (Bihar/Jharkhand/Punjab/Haryana); `THE CIVIL JUDGE CLASS I` (MP/Chhattisgarh). See `${CLAUDE_PLUGIN_ROOT}/state-config/exemplars/` for the validated per-State court designation taxonomy.
+- **Case number line:** `[SUIT / REGULAR CIVIL SUIT / SPECIAL CIVIL SUIT / MISCELLANEOUS CIVIL APPLICATION] NO. _____ OF [YEAR]`
+- **Parties separator:** `...VERSUS...` (preferred) or `///VERSUS///` (acceptable in some State practices)
+- **Section heads:** Title Case bold (e.g., `Statement of Facts`, `Particulars of Claim`, `Cause of Action`, `Limitation`, `Court-Fee`, `Jurisdiction`, `Verification`)
+- **Salutation opener:** `The Plaintiff above-named most humbly and respectfully begs to submit as under:`
+- **Inline annexure marker (District):** `...a copy whereof is filed herewith and marked as EXHIBIT [A / B / C ...]`
+  *(Note: Some States use the "ANNEXURE-A" convention; user-controlled via `format-from-user.md`. Default is `EXHIBIT [letter]`.)*
+- **Schedule of Property block:** mandatory for any suit involving immovable property — placed at the end of the plaint with boundary description (N / S / E / W), survey number, area, sub-division, mutation entries (where applicable).
+- **Court-Fee block:** mandatory — states the value of suit, the court-fee paid, the schedule of the State Court-Fees Act under which the fee is paid.
+- **Limitation block:** mandatory — states the cause of action date(s) and the applicable Article of the Limitation Act 1963 Schedule.
+- **Jurisdiction block:** mandatory — states the territorial and pecuniary basis for the chosen forum.
+- **Verification block:** verbatim per CPC Order VI Rule 15, with separate sub-blocks for paragraphs based on personal knowledge and paragraphs based on information believed to be true.
+- **Advocate's signature block:**
+  ```
+  PLACE: [Place]                              ([NAME], Advocate)
+  DATE: <DD.MM.YYYY>                          [Bar Council Enrolment No.]
+                                              ADVOCATE FOR THE PLAINTIFF
+  ```
+- **Vakalatnama (separate document):** mandatory · State-specific format · stamped per State Stamp Schedule.
+
+### Criminal-side conventions (BNSS-governed, shipping v0.2.0)
+
+- **Court header:** `IN THE COURT OF [JUDICIAL OFFICER DESIGNATION] AT [PLACE]` (e.g., `IN THE COURT OF THE JUDICIAL MAGISTRATE FIRST CLASS AT [PLACE]`)
+- **Case number line:** `[CRIMINAL CASE / COMPLAINT CASE / R.C.C. / S.C.C.] NO. _____ OF [YEAR]`
+- **Dual citation discipline:** every reference to CrPC must be paired with BNSS, every IPC reference paired with BNS, every IEA reference paired with BSA. Pattern:
+  `Section [N] of the Bharatiya Nagarik Suraksha Sanhita 2023 (corresponding to Section [N] of the Code of Criminal Procedure 1973 — applicable where the offence is registered before 1 July 2024)`
+
+## ANNEXURE MECHANISM (District convention)
+
+Inline marker in Facts → consolidated table at end of pleading. Default convention is `EXHIBIT [letter]` (overridable via `format-from-user.md` to `ANNEXURE-[letter]` for users from States that prefer that style).
+
+```
+STATEMENT OF FACTS
+- "...the Agreement to Sell dated <DD.MM.YYYY> ... a copy whereof is filed herewith and marked as EXHIBIT A."
+- "...the legal notice dated <DD.MM.YYYY> ... EXHIBIT B."
+- "...the reply received ... EXHIBIT C."
+
+LIST OF DOCUMENTS / EXHIBITS
+| Sr.No | Exhibit | Particulars                            | Date            | Pages |
+| 1     | A       | Agreement to Sell dated <DD.MM.YYYY>   | <DD.MM.YYYY>    | <N>   |
+| 2     | B       | Legal Notice                            | <DD.MM.YYYY>    | <N>   |
+| 3     | C       | Reply to Legal Notice                   | <DD.MM.YYYY>    | <N>   |
+```
+
+Drafter MUST keep inline markers and List of Documents in sync. Verifier checks for orphan markers.
+
+## STANDARD PLEADING SECTIONS (in order, all in one .docx)
+
+For every District Court civil pleading, the .docx contains (in this order):
+
+1. Cause Title
+2. Parties block (with addresses, ages, occupations — placeholders only)
+3. Statement of Facts
+4. Particulars of Claim / Cause of Action
+5. Jurisdiction
+6. Limitation (with the specific Article of Schedule to the Limitation Act 1963)
+7. Court-Fee (with the specific Schedule of the State Court-Fees Act)
+8. Prayer
+9. Verification (per CPC Order VI Rule 15)
+10. Place + Date + Advocate signature block + Bar Council Enrolment No.
+11. Schedule of Property (where the suit involves immovable property)
+12. List of Documents / Exhibits
+
+For District Court criminal pleadings, the structure adjusts per the case-type (Bail Application, Anticipatory Bail Application, Criminal Complaint, Revision, etc.) — see case-type SKILL.md for each.
+
+## OUTPUT FORMAT
+
+- **File type:** `.docx` (so the user can open in Word and apply tracked-changes review)
+- **Conversion tool:** pandoc with a `reference.docx` template; fallback to python-docx
+- **Output filename convention:** `<case-type>_draft-v<N>_<YYYY-MM-DD>.docx`
+- **NEVER overwrite an existing draft.** Each run produces a new versioned file.
+
+## RECOVERY / AUDIT
+
+The audit chain: `case-facts.md` → `format-shell.md` → `draft-v1.docx` → `verification-report.md` → `draft-v2.docx` → `opposing-notes.md` → `final-draft.docx`. Every file timestamped. Every input listed in `case-facts.md` Section 1. Every fact in the final draft traces to the case folder.
