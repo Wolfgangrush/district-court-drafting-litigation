@@ -474,7 +474,7 @@ Advocates with regular District-court practice in any State are invited to contr
 
 Open a GitHub issue with your State + the contribution. Pull requests are welcome with a one-paragraph explanation of the change and a reference to the relevant State Act, Civil Manual, or High Court Practice Direction.
 
-This plugin is open source under MIT. No proprietary gating. No login. No telemetry. No tracking of who uses the plugin or what cases they file.
+This plugin is open source under MIT.
 
 ---
 
