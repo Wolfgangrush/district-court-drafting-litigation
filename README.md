@@ -87,7 +87,7 @@ District Courts vary materially across States — on the Court-Fees Schedule, on
 
 | # | State / Region | State-config exemplar | Coverage notes |
 |---|---|---|---|
-| 1 | **Maharashtra** | `state-config/exemplars/maharashtra.md` | Most-deeply-validated State at v0.1.0-alpha (author's State). Bombay Court Fees Act 1959 + Maharashtra Civil Courts Act 1869 + Maharashtra Civil Manual. |
+| 1 | **Maharashtra** | `state-config/exemplars/maharashtra.md` | Bombay Court Fees Act 1959 + Maharashtra Civil Courts Act 1869 + Maharashtra Civil Manual. |
 | 2 | **Karnataka** | `state-config/exemplars/karnataka.md` | Karnataka Court Fees and Suits Valuation Act 1958 + Karnataka Civil Courts Act 1964. |
 | 3 | **Tamil Nadu** | `state-config/exemplars/tamil-nadu.md` | Tamil Nadu Court Fees and Suits Valuation Act 1955 + Tamil Nadu Civil Courts Act 1873. |
 | 4 | **Kerala** | `state-config/exemplars/kerala.md` | Kerala Court Fees and Suits Valuation Act 1959 + Kerala Civil Courts Act 1957. |
@@ -462,7 +462,7 @@ Generic AI tools do not understand CPC discipline (Order VI Rule 15 verification
 
 This plugin encodes the CPC + BNSS discipline directly, and lets the user supply the State-specific overlay through a single `state-config.md` file in the case folder.
 
-The author's primary practice is at the Bombay High Court (Nagpur Bench); the deepest validation is therefore at the District-court tier within Maharashtra. Other States are supported via the State-config architecture; community contribution from advocates with regular District-court practice in each State will deepen per-State validation over time.
+States are supported via the State-config architecture; community contribution from advocates with regular District-court practice in each State will deepen per-State coverage over time.
 
 ---
 

@@ -1,6 +1,6 @@
 # state-config — Maharashtra
 
-**Validation depth:** Deep · battle-tested · author's practice State.
+**Validation depth:** Researched · awaiting Registry-acceptance validation.
 
 ```yaml
 state: "Maharashtra"

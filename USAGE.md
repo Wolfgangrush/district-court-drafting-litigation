@@ -58,7 +58,7 @@ cp <plugin-folder>/state-config/exemplars/<your-state>.md \
 ```
 
 State exemplars available:
-- `maharashtra.md` — deep · battle-tested
+- `maharashtra.md` — researched · awaiting Registry-acceptance validation
 - `karnataka.md`, `tamil-nadu.md`, `kerala.md`, `andhra-pradesh-telangana.md`, `gujarat.md`, `delhi.md`, `uttar-pradesh-uttarakhand.md`, `madhya-pradesh-chhattisgarh.md`, `west-bengal.md`, `bihar-jharkhand.md`, `punjab-haryana-chandigarh.md`, `rajasthan.md`, `odisha.md` — researched · awaiting Registry validation
 - `north-east-states.md`, `jammu-kashmir-ladakh.md` — stub · community contribution welcomed
 

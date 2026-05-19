@@ -23,7 +23,7 @@ After a multi-State audit the plugin was rebuilt to be honestly multi-State rath
 #### State-config exemplars (16 files)
 `state-config/state-config-template.md` — universal 12-section template
 `state-config/exemplars/`:
-- `maharashtra.md` — **Deep · battle-tested** · author's practice State · Civil Judge SD/JD · Bombay Court-Fees Act 1959 · Bombay Civil Courts Act 1869
+- `maharashtra.md` — Researched · awaiting Registry-acceptance validation · Civil Judge SD/JD · Bombay Court-Fees Act 1959 · Bombay Civil Courts Act 1869
 - `karnataka.md` — Senior Civil Judge / Civil Judge · Karnataka Court-Fees Act 1958 · Karnataka Civil Courts Act 1964
 - `tamil-nadu.md` — **Subordinate Judge / District Munsiff** (distinct from Maharashtra) · TN Court-Fees Act 1955 · Tamil-language pleadings permitted
 - `kerala.md` — **Sub Court / Munsiff Court** · Kerala Court-Fees Act 1959 · Kerala Civil Courts Act 1957
