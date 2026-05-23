@@ -27,8 +27,5 @@
     "lawtech"
   ],
   "homepage": "https://github.com/Wolfgangrush/district-court-drafting-litigation",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Wolfgangrush/district-court-drafting-litigation"
-  }
+  "repository": "https://github.com/Wolfgangrush/district-court-drafting-litigation"
 }
