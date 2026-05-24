@@ -131,3 +131,18 @@ Flagged: <N>
 ## Handoff
 
 When `verification-report.md` complete: signal Refiner. If F11 (SR Section 16(c) absent) or F14 (TI three-limb absent) or F19 (criminal complaint ingredient mapping absent) fires: write `HALT.flag` and signal user — these are fatal.
+
+
+---
+
+## v0.2.3 EXPLICIT OUTPUT-PAIRING (load-bearing — Verifier MUST run after every `.md` write)
+
+After writing **verification-report** to the case folder, the Verifier MUST immediately invoke the shipped output-pairing helper on each `.md` artifact to produce a paired `.docx`:
+
+```bash
+bash "${CLAUDE_PLUGIN_ROOT}/skills/_district_pleading_base/pair_md_to_docx.sh" <case-folder>/verification-report.md
+```
+
+The helper performs the two-step pandoc + `fix_docx_tables.py` pipeline using the shipped `reference.docx` at `${CLAUDE_PLUGIN_ROOT}/skills/_district_pleading_base/reference.docx` and writes the paired `.docx` alongside the `.md`. The advocate then has both formats — `.md` for diffing / version control / downstream agent input, `.docx` for opening in Word.
+
+**Hard rule:** the Verifier does NOT signal the next stage of the pipeline until every `.md` it has written carries a paired `.docx`. The Verifier (or the human reviewer) checks for this pairing and flags any orphan `.md`. (Documented as v0.2.2 OUTPUT-PAIRING DISCIPLINE in `_drafting_common/SKILL.md`; v0.2.3 makes the invocation explicit in this agent's prompt so the rule survives any failure of inherited-rule compliance.)

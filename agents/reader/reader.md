@@ -145,3 +145,18 @@ State: <user-supplied from case folder CLAUDE.md or format-from-user.md Section 
 ## Handoff
 
 When complete + no STOP: signal Format agent. If STOP: signal user with specific gaps.
+
+
+---
+
+## v0.2.3 EXPLICIT OUTPUT-PAIRING (load-bearing — Reader MUST run after every `.md` write)
+
+After writing **case-facts** to the case folder, the Reader MUST immediately invoke the shipped output-pairing helper on each `.md` artifact to produce a paired `.docx`:
+
+```bash
+bash "${CLAUDE_PLUGIN_ROOT}/skills/_district_pleading_base/pair_md_to_docx.sh" <case-folder>/case-facts.md
+```
+
+The helper performs the two-step pandoc + `fix_docx_tables.py` pipeline using the shipped `reference.docx` at `${CLAUDE_PLUGIN_ROOT}/skills/_district_pleading_base/reference.docx` and writes the paired `.docx` alongside the `.md`. The advocate then has both formats — `.md` for diffing / version control / downstream agent input, `.docx` for opening in Word.
+
+**Hard rule:** the Reader does NOT signal the next stage of the pipeline until every `.md` it has written carries a paired `.docx`. The Verifier (or the human reviewer) checks for this pairing and flags any orphan `.md`. (Documented as v0.2.2 OUTPUT-PAIRING DISCIPLINE in `_drafting_common/SKILL.md`; v0.2.3 makes the invocation explicit in this agent's prompt so the rule survives any failure of inherited-rule compliance.)
