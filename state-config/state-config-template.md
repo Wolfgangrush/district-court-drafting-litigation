@@ -2,7 +2,7 @@
 
 This is a **template**. Copy this file into your case folder, rename to `state-config.md`, and fill in the values for your specific State / Union Territory. The plugin's Format and Drafter agents read this file at run-time alongside the case-type SKILL templates to render District-Court pleadings in your State's idiom.
 
-**Do not edit this template in the plugin folder.** Always work on a copy inside your case folder. Validated State exemplars for the major State jurisdictions are in `state-config/exemplars/` — copy the right one for your State, then customise per your specific bench (Pune Sessions vs Nagpur Sessions, etc.).
+**Do not edit this template in the plugin folder.** Always work on a copy inside your case folder. Validated State exemplars for the major State jurisdictions are in `state-config/exemplars/` — copy the right one for your State, then customise per your specific bench (Pune Sessions vs [bench city] Sessions, etc.).
 
 ---
 
@@ -141,7 +141,7 @@ notes: |
 
 1. Pick the right State exemplar from `state-config/exemplars/` (15 major State exemplars provided).
 2. Copy to your case folder: `cp state-config/exemplars/<your-state>.md <case-folder>/state-config.md`
-3. Customise the values per your specific court (Pune Sessions vs Nagpur Sessions vs Mumbai City Civil, etc.).
+3. Customise the values per your specific court (Pune Sessions vs [bench city] Sessions vs Mumbai City Civil, etc.).
 4. The plugin's Format and Drafter agents read this file alongside the case-type SKILL to render in your State's idiom.
 
 ## Contributing state-config exemplars

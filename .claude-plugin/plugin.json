@@ -3,7 +3,7 @@
   "version": "0.1.0-alpha",
   "description": "Open-source Claude Code plugin for drafting pleadings before District Courts across India. Civil-side coverage includes Specific Relief Act suits, Plaints and Written Statements under the Code of Civil Procedure 1908 (Order 6, 7, 8), interlocutory Applications, generic Petitions and Pleadings. Criminal-side coverage (shipping in v0.2.0) includes Criminal Complaints under the Bharatiya Nagarik Suraksha Sanhita 2023, Bail Applications, Anticipatory Bail Applications, Criminal Revisions, and Section 313 / Section 351 BNSS Statements. Includes the drafting pipeline (Reader to Format to Drafter to Verifier to Refiner to Overseer agents) and shared District pleading base. Verified for use across States where the local Civil Manual and Criminal Manual follow the standard CPC / BNSS structure; State-specific Court-Fees Act values and Vakalatnama formats are user-supplied via the case folder.",
   "author": {
-    "name": "Wolfgang Rush",
+    "name": "wolfgang_rush",
     "url": "https://github.com/Wolfgangrush/district-court-drafting-litigation"
   },
   "license": "MIT",
