@@ -1,3 +1,16 @@
+<div align="center">
+<img src="docs/banner.png" width="820"/>
+
+**Open-source Claude-compatible plugin for drafting Indian District Court pleadings — civil + criminal, 25+ States, six-agent pipeline.**
+
+Visit the live site: [wolfgangrush.github.io](https://wolfgangrush.github.io)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Claude Compatible](https://img.shields.io/badge/Claude-compatible-8A2BE2)](#)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#)
+</div>
+
+
 # district-court-drafting
 
 > **Open-source Claude-compatible plugin for drafting pleadings before District Courts across India — written for the District-court advocate who has never installed a plugin before.**
